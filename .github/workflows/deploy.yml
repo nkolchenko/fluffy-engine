@@ -34,7 +34,9 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/fluffy-engine
-            git clone git@github.com:DmytroFromServian/fluffy-engine.git
+            eval `ssh-agent -s`
+            ssh-add - <<< '${{ secrets.PRIVATE_SSH_GITHUB_KEY }}'
+            git clone https://github.com/DmytroFromServian/fluffy-engine.git
             cd fluffy-engine
             git checkout master
             git pull origin master
