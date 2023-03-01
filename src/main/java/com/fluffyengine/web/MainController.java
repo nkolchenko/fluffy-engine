@@ -13,7 +13,7 @@ public class MainController {
     }
 
     @GetMapping("/result")
-    public boolean result() {
-        return new Random().nextBoolean();
+    public String result() {
+        return new Random().nextBoolean() ? "HeHe" : "Not HeHe";
     }
 }
