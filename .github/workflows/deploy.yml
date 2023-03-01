@@ -35,13 +35,7 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/fluffy-engine
-            sudo touch ~/.ssh/id_rsa_github
-            sudo echo ${{ secrets.PRIVATE_SSH_GITHUB_KEY }} >> ~/.ssh/id_rsa_github
-            sudo chmod 700 ~/.ssh/
-            sudo chmod 600 ~/.ssh/id_rsa_github
-            eval `ssh-agent -s`
-            sudo ssh-add ~/.ssh/id_rsa_github
-            git clone git@github.com:DmytroFromServian/fluffy-engine.git
+            git clone https://github.com/DmytroFromServian/fluffy-engine.git
             cd fluffy-engine
             git checkout master
             git pull origin master
