@@ -24,14 +24,10 @@ jobs:
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ env.AWS_SECURITY_GROUP }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/16
           sleep 10
-      - name: Setup SSH
-        uses: MrSquaare/ssh-setup-action@v1
-        with:
-          host: github.com
-          private-key: ${{ secrets.PRIVATE_SSH_GITHUB_KEY }}
       - name: Deploy on AWS EC2
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
+          PRIVATE_SSH_GITHUB_KEY: ${{ secrets.PRIVATE_SSH_GITHUB_KEY }}
           HOSTNAME: ${{ secrets.HOSTNAME  }}
           USER_NAME: ${{ secrets.USERNAME  }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -39,6 +35,13 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/fluffy-engine
+            sudo mkdir ~/.ssh
+            sudo touch ~/.ssh/id_rsa
+            sudo echo ${{ secrets.PRIVATE_SSH_GITHUB_KEY }} >> ~/.ssh/id_rsa
+            sudo chmod 700 ~/.ssh/
+            sudo chmod 600 ~/.ssh/id_rsa
+            eval $(ssh-agent -s)
+            ssh-add ~/.ssh/id_rsa
             git clone git@github.com:DmytroFromServian/fluffy-engine.git
             cd fluffy-engine
             git checkout master
