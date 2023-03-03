@@ -16,4 +16,9 @@ public class MainController {
     public String result() {
         return new Random().nextBoolean() ? "HeHe" : "Not HeHe";
     }
+
+    @GetMapping("/")
+    public String main() {
+        return "v0.1";
+    }
 }
