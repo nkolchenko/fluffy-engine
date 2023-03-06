@@ -19,6 +19,6 @@ public class MainController {
 
     @GetMapping("/")
     public String main() {
-        return "v0.2";
+        return "v0.2.1";
     }
 }
