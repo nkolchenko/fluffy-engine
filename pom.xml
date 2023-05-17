@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.fluffy-engine</groupId>
 	<artifactId>fluffy-engine</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>fluffy-engine</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -53,6 +53,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
@@ -95,6 +98,22 @@
 					 </execution>
 				  </executions>
 			</plugin>
+
+
+            <plugin>
+              <groupId>org.owasp</groupId>
+              <artifactId>dependency-check-maven</artifactId>
+              <version>8.2.1</version>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>aggregate</goal>
+                      </goals>
+                  </execution>
+              </executions>
+            </plugin>
+
+
 		</plugins>
 	</build>
 
